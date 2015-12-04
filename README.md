@@ -1084,13 +1084,14 @@ echo $b; // b
 
 This has now been changed making string usage with `list()` forbidden in all cases.
 
-Also, empty `list()`'s are now a fatal error, and the order of assigning variables has been changed to left-to-right:
+Also, empty `list()`'s are now a fatal error, the order of assigning variables has been changed to left-to-right and "modification of the array during list() execution results in undefined behavior" [[see doc](http://php.net/list)]:
+
 ```PHP
 $a = [1, 2];
 list($a, $b) = $a;
 
 // OLD: $a = 1, $b = 2
-// NEW: $a = 1, $b = null + "Undefined index 1"
+// NEW: $a = 1, $b = 1 or 2 or null + "Undefined index 1"
 
 $b = [1, 2];
 list($a, $b) = $b;
@@ -1258,7 +1259,7 @@ function foo($version, $version)
 }
 
 echo foo(5, 7);
-  
+
 // Pre PHP 7 result
 7
 
